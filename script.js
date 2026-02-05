@@ -62,7 +62,7 @@ noBtn.addEventListener("mouseover", () => {
 yesBtn.addEventListener("click", () => {
     title.textContent = "Yippeeee!";
 
-    catImg.src = "../sreekuti.jpeg";
+    catImg.src = "sreekuti.jpeg";
     catImg.style.width = "100%";
     catImg.style.height = "auto";
     catImg.style.objectFit = "contain";
