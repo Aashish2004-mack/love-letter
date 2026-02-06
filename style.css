@@ -1,3 +1,7 @@
+* {
+    box-sizing: border-box;
+}
+
 body {
     margin: 0;
     height: 100vh;
@@ -5,42 +9,79 @@ body {
     justify-content: center;
     align-items: center;
     background-image: url("heart-bg.jpg");
+    background-size: cover;
+    background-position: center;
     font-family: "Pixelify Sans", sans-serif;
+    overflow: hidden;
 }
 
 /* Envelope Screen */
 #envelope-container {
     text-align: center;
-    cursor:pointer;
+    cursor: pointer;
+    animation: fadeIn 1s ease;
+}
+
+#envelope-container p {
+    color: white;
+    font-size: 28px;
+    text-shadow: 2px 2px 8px rgba(0,0,0,0.5);
+    margin-top: 20px;
+    animation: float 3s ease-in-out infinite;
 }
 
 @keyframes pulse {
-    0% {
-        transform:scale(1);
+    0%, 100% {
+        transform: scale(1);
     }
     50% {
-        transform: scale(1.1);
+        transform: scale(1.15);
     }
-    100% {
+}
+
+@keyframes float {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.8);
+    }
+    to {
+        opacity: 1;
         transform: scale(1);
     }
 }
 
-#envelope{
-    width: 200px;
+#envelope {
+    width: 250px;
     animation: pulse 1.5s infinite;
     cursor: pointer;
+    filter: drop-shadow(0 10px 20px rgba(0,0,0,0.3));
+    transition: filter 0.3s ease;
 }
 
-#letter-container{
+#envelope:hover {
+    filter: drop-shadow(0 15px 30px rgba(255,105,180,0.5));
+}
+
+#letter-container {
     display: none;
-    position:fixed;
+    position: fixed;
     inset: 0;
     justify-content: center;
     align-items: center;
+    background: rgba(0,0,0,0.3);
+    backdrop-filter: blur(5px);
 }
 
-.letter-window{
+.letter-window {
     width: 90vw;
     max-width: 800px;
     aspect-ratio: 3/2;
@@ -55,34 +96,36 @@ body {
     background-repeat: no-repeat;
     background-position: center;
     border-radius: 12px;
-    gap: 1px;
+    gap: 10px;
     padding-top: 180px;
-
-    transform: scale(1.2);
+    transform: scale(0.5) rotateY(90deg);
     opacity: 0;
-    transition: transform 0.6s ease, opacity 0.6s ease;
+    transition: all 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
 }
 
 .letter-window.open {
-    transform: scale(1);
+    transform: scale(1) rotateY(0deg);
     opacity: 1;
 }
 
 h1 {
-    font-size: 30px;
-    margin:0;
+    font-size: 32px;
+    margin: 0;
+    color: #ff1493;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
 }
 
 p {
     font-size: 40px;
+    margin: 10px 0;
 }
 
 /* Cat */
-
 .cat {
     width: 250px;
-    margin: 10px 0;
-    transition: width 0.4s ease;
+    margin: 15px 0;
+    transition: all 0.5s ease;
+    filter: drop-shadow(0 5px 15px rgba(0,0,0,0.2));
 }
 
 .letter-window.final .cat {
@@ -102,76 +145,99 @@ p {
 }
 
 .btn {
-    /* Reset button styles */
     background: none;
     border: none;
     padding: 0;
-    /* General styles */
     cursor: pointer;
     user-select: none;
+    transition: all 0.3s ease;
+}
+
+.btn:hover {
+    filter: brightness(1.2);
 }
 
 .btn img {
     width: 120px;
-    display: block; /* Removes extra space below image */
+    display: block;
+    filter: drop-shadow(0 4px 8px rgba(0,0,0,0.2));
 }
-
 
 .yes-btn,
 .no-btn {
-width: 120px;
-height: auto;
-display: inline-block;
+    width: 120px;
+    height: auto;
+    display: inline-block;
 }
 
 .yes-btn {
     position: relative;
     z-index: 2;
     transform-origin: center center;
-    transition: transform 0.3s ease;
+    transition: transform 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+.yes-btn:hover {
+    transform: scale(1.1) rotate(5deg);
 }
 
 .no-btn {
     z-index: 1;
     position: relative;
-    transition: transform 0.15s ease;
+    transition: transform 0.2s ease;
     cursor: default;
 }
 
-.final-text{
-    display: none; /* Hidden by default */
+.final-text {
+    display: none;
     font-size: 22px;
-    line-height: 1.4;
+    line-height: 1.6;
     text-align: center;
-    padding: 10px 20px;
-    background-color: rgba(255,240,240,0.5);
-    border-radius: 12px;
+    padding: 20px 30px;
+    background: linear-gradient(135deg, rgba(255,240,240,0.9), rgba(255,192,203,0.8));
+    border-radius: 15px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+    border: 2px solid rgba(255,255,255,0.5);
 }
 
-/* --- "Yes" Clicked State --- */
+/* "Yes" Clicked State */
 .is-accepted {
     flex-direction: row;
     align-items: center;
     gap: 50px;
+    animation: celebrate 0.6s ease;
+}
+
+@keyframes celebrate {
+    0%, 100% { transform: scale(1); }
+    25% { transform: scale(1.05) rotate(2deg); }
+    75% { transform: scale(1.05) rotate(-2deg); }
 }
 
 .is-accepted #letter-title {
-    content: "Yippeeee!"; /* This won't work, title is changed in JS. Let's do it with CSS */
-    font-size: 0; /* Hide original text */
+    font-size: 0;
 }
+
 .is-accepted #letter-title::before {
-    content: "Yippeeee!";
-    font-size: 30px; /* Restore font size */
+    content: "Yippeeee! 💕";
+    font-size: 36px;
+    animation: bounce 0.8s ease;
+}
+
+@keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-20px); }
 }
 
 .is-accepted #letter-cat {
-    content: url("sreekuti.jpeg"); /* Change image source via CSS */
+    content: url("sreekuti.jpeg");
     width: 100%;
     height: auto;
     object-fit: contain;
-    border-radius: 10px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-    border: 3px solid white;
+    border-radius: 15px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.4);
+    border: 4px solid white;
+    animation: fadeIn 0.8s ease;
 }
 
 .is-accepted #letter-buttons {
@@ -180,77 +246,64 @@ display: inline-block;
 
 .is-accepted .final-text {
     display: block;
-    order: -1; /* This moves the text before the letter window visually */
-    color: white;
-    font-size: 1.5rem;
-    max-width: 400px;
-    text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+    order: -1;
+    color: #333;
+    font-size: 1.4rem;
+    max-width: 450px;
+    animation: slideIn 0.8s ease;
 }
 
-.final-text{
-    font-size: 22px;
-    line-height: 1.4;
-    text-align: center;
-    display: inline-block;
-    padding: 10px 20px;
-    background-color: rgba(255,240,240,0.5);
-    border-radius: 12px;
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateX(-50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
 }
 
 /* --- Mobile Responsiveness --- */
 
 @media (max-width: 768px) {
+    #envelope {
+        width: 200px;
+    }
+
+    #envelope-container p {
+        font-size: 24px;
+    }
+
     .letter-window {
         width: 95vw;
-        /* The background image has a lot of top space, let's reduce padding */
-        padding-top: 120px; 
-        /* On tall screens, aspect-ratio can make the box too short */
+        padding-top: 120px;
         aspect-ratio: unset;
         height: 70vh;
         max-height: 550px;
     }
 
     h1 {
-        font-size: 26px;
-    }
-
-    p {
-        font-size: 32px;
+        font-size: 24px;
     }
 
     .cat {
-        width: 200px;
+        width: 180px;
     }
 
-    .btn {
+    .btn img {
         width: 100px;
     }
 
-    /* After clicking "Yes", the layout becomes a row.
-       On mobile, we want it to stack vertically.
-       No !important needed now that we use classes! */
     .is-accepted {
         flex-direction: column;
         gap: 20px;
         justify-content: center;
     }
-}
 
-/* GitHub Link */
-.github-link {
-    position: fixed;
-    bottom: 15px;
-    right: 15px;
-    z-index: 100;
-    opacity: 0.7;
-    transition: opacity 0.3s ease, transform 0.3s ease;
-}
-
-.github-link:hover {
-    opacity: 1;
-    transform: scale(1.1);
-}
-
-.github-link svg {
-    fill: white;
+    .is-accepted .final-text {
+        font-size: 1.1rem;
+        max-width: 90%;
+        padding: 15px 20px;
+    }
 }
