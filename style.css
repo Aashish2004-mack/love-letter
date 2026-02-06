@@ -102,10 +102,20 @@ p {
 }
 
 .btn {
-    width: 120px;
+    /* Reset button styles */
+    background: none;
+    border: none;
+    padding: 0;
+    /* General styles */
     cursor: pointer;
     user-select: none;
 }
+
+.btn img {
+    width: 120px;
+    display: block; /* Removes extra space below image */
+}
+
 
 .yes-btn,
 .no-btn {
@@ -126,6 +136,55 @@ display: inline-block;
     position: relative;
     transition: transform 0.15s ease;
     cursor: default;
+}
+
+.final-text{
+    display: none; /* Hidden by default */
+    font-size: 22px;
+    line-height: 1.4;
+    text-align: center;
+    padding: 10px 20px;
+    background-color: rgba(255,240,240,0.5);
+    border-radius: 12px;
+}
+
+/* --- "Yes" Clicked State --- */
+.is-accepted {
+    flex-direction: row;
+    align-items: center;
+    gap: 50px;
+}
+
+.is-accepted #letter-title {
+    content: "Yippeeee!"; /* This won't work, title is changed in JS. Let's do it with CSS */
+    font-size: 0; /* Hide original text */
+}
+.is-accepted #letter-title::before {
+    content: "Yippeeee!";
+    font-size: 30px; /* Restore font size */
+}
+
+.is-accepted #letter-cat {
+    content: url("sreekuti.jpeg"); /* Change image source via CSS */
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+    border: 3px solid white;
+}
+
+.is-accepted #letter-buttons {
+    display: none;
+}
+
+.is-accepted .final-text {
+    display: block;
+    order: -1; /* This moves the text before the letter window visually */
+    color: white;
+    font-size: 1.5rem;
+    max-width: 400px;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
 }
 
 .final-text{
@@ -169,10 +228,10 @@ display: inline-block;
 
     /* After clicking "Yes", the layout becomes a row.
        On mobile, we want it to stack vertically.
-       !important is needed to override the inline style set by JavaScript. */
-    #letter-container[style*="flex-direction: row"] {
-        flex-direction: column !important;
-        gap: 20px !important;
+       No !important needed now that we use classes! */
+    .is-accepted {
+        flex-direction: column;
+        gap: 20px;
         justify-content: center;
     }
 }
