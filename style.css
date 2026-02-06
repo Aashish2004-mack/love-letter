@@ -137,3 +137,61 @@ display: inline-block;
     background-color: rgba(255,240,240,0.5);
     border-radius: 12px;
 }
+
+/* --- Mobile Responsiveness --- */
+
+@media (max-width: 768px) {
+    .letter-window {
+        width: 95vw;
+        /* The background image has a lot of top space, let's reduce padding */
+        padding-top: 120px; 
+        /* On tall screens, aspect-ratio can make the box too short */
+        aspect-ratio: unset;
+        height: 70vh;
+        max-height: 550px;
+    }
+
+    h1 {
+        font-size: 26px;
+    }
+
+    p {
+        font-size: 32px;
+    }
+
+    .cat {
+        width: 200px;
+    }
+
+    .btn {
+        width: 100px;
+    }
+
+    /* After clicking "Yes", the layout becomes a row.
+       On mobile, we want it to stack vertically.
+       !important is needed to override the inline style set by JavaScript. */
+    #letter-container[style*="flex-direction: row"] {
+        flex-direction: column !important;
+        gap: 20px !important;
+        justify-content: center;
+    }
+}
+
+/* GitHub Link */
+.github-link {
+    position: fixed;
+    bottom: 15px;
+    right: 15px;
+    z-index: 100;
+    opacity: 0.7;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.github-link:hover {
+    opacity: 1;
+    transform: scale(1.1);
+}
+
+.github-link svg {
+    fill: white;
+}
